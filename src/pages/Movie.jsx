@@ -24,10 +24,6 @@ const Movie = () => {
         return <p>Loading...</p>
     }
 
-    if (!characters) {
-        return <p>Loading...</p>
-    }
-
     return (
         <>
             <br />
