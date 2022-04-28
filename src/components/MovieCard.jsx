@@ -1,6 +1,7 @@
 import { Card, ListGroup, Button, Col } from "react-bootstrap"
 import { Link } from 'react-router-dom'
-import getIdFromUrl from '../services/SWApi'
+import { useState } from "react"
+import getIdFromUrl from '../services/GetId'
 
 const MovieCard = ({ movies }) => {
 
@@ -22,7 +23,7 @@ const MovieCard = ({ movies }) => {
                                     <br />
 
                                     <div className="justify-content-md-center d-flex">
-                                        <Button as={Link} to={`/movies/:id`}>Read more</Button>
+                                        <Button as={Link} to={`/movies/${getIdFromUrl(movie.url)}`}>Read more</Button>
                                     </div>
                                 </Card.Body>
                         

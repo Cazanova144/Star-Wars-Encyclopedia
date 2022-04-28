@@ -36,12 +36,6 @@ const Movies = () => {
 
             <Container style={{}}>
                 <Row>
-                    {/* <MovieCard />
-                    <MovieCard />
-                    <MovieCard />
-                    <MovieCard />
-                    <MovieCard />
-                    <MovieCard /> */}
                     
                     {showMovies ? (
                         <>
