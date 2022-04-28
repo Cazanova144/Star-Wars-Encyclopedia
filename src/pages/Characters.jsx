@@ -1,4 +1,4 @@
-import { Container, Row } from "react-bootstrap"
+import { Container, Row, Button } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import CharacterCard from "../components/CharacterCard"
 import SWApi from '../services/SWApi'
@@ -39,7 +39,15 @@ const Characters = () => {
                         </>
                     ): null}
                 </Row>
+
+                <div className="mb-5">
+                    <Button disabled={page === 1} onClick={() => setPage(prevPage => prevPage - 1)}>Previous Page</Button>
+
+                    <Button onClick={() => setPage(prevPage => prevPage + 1)}>Next Page</Button>
+                </div>
             </Container>
+
+            
 
         </div>
     )
