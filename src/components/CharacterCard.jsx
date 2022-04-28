@@ -1,25 +1,29 @@
 import { Card, ListGroup, Button, Col } from "react-bootstrap"
 import { Link } from 'react-router-dom'
+import getIdFromUrl from '../services/GetId'
 
-const CharacterCard = () => {
+const CharacterCard = ({ characters }) => {
+    console.log("Characters", characters)
+
     return (
-        <div style={{ width: '27rem' }} className="mb-5">
+        <div style={{ display: 'flex', flexWrap: 'wrap' }} className="mb-5">
 
-                    <Col>
-                        <Card>
-                            <Card.Header>Character Name</Card.Header>
+            {characters.map(character => (
+                <Col key={getIdFromUrl(character.url)}>
+                        <Card style={{ width: '24rem' }} className="mb-5">
+                            <Card.Header>{character.name}</Card.Header>
                                 
                             <Card.Body>
                                 <ListGroup>
-                                    <ListGroup.Item><strong>Gender</strong> NaN</ListGroup.Item>
-                                    <ListGroup.Item><strong>Born</strong> NaN</ListGroup.Item>
-                                    <ListGroup.Item><strong>In</strong> NaN films</ListGroup.Item>
+                                    <ListGroup.Item><strong>Gender</strong> {character.gender}</ListGroup.Item>
+                                    <ListGroup.Item><strong>Born</strong> {character.birth_year}</ListGroup.Item>
+                                    <ListGroup.Item><strong>In</strong> {character.films.length} films</ListGroup.Item>
                                 </ListGroup>
 
                                 <br />
 
                                 <div className="justify-content-md-center d-flex">
-                                    <Button as={Link} to="/characters/:id">Read more</Button>
+                                    <Button as={Link} to={`/characters/${getIdFromUrl(character.url)}`}>Read more</Button>
                                 </div>
 
                                     
@@ -28,8 +32,8 @@ const CharacterCard = () => {
                         </Card>
                     </Col>
 
-                    
-    
+            ))}
+
         </div>
     )
 }
