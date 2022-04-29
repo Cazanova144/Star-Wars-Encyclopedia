@@ -10,6 +10,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container'
 import { Routes, Route } from 'react-router-dom'
+import Search from './pages/Search';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/movies/:id" element={<Movie />} />
           <Route path="/characters" element={<Characters />} />
           <Route path="/characters/:id" element={<Character/>} />
+          <Route path="/search" element={<Search/>}/>
           <Route path="*" element={<NotFound />} />
 
         </Routes>
