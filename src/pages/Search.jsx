@@ -14,7 +14,8 @@ const Search = () => {
     const [Page, setPage] = useState(1)
     const [searchParams, setSearchParams] = useSearchParams()
 	const searchInputRef = useRef()
-    const queryRef = useRef()
+
+    const query = searchParams.get('query')
 
     const searchPeople = async (searchQuery, page ) => {
 
@@ -42,19 +43,21 @@ const Search = () => {
 			return
 		}
 
-        queryRef.current = searchInput
+        setPage(1)
 
 		setSearchParams({ query: searchInput })
-        searchPeople(searchInput, Page)
 	}
 
     useEffect(() => {
-        if (!queryRef.current) {
+        if (!query) {
+            setSearchInput('')
+            setSearchResult(null)
             return
         }
 
-        searchPeople(queryRef.current, Page)
-    }, [Page])
+        setSearchInput(query)
+        searchPeople(query, Page)
+    }, [query, Page])
 
     return (
         <>
@@ -76,7 +79,7 @@ const Search = () => {
                 </Form.Group>
 
                 <div className="d-flex justify-content-between">
-					<Button variant="success" type="submit" disabled={!searchInput.length} onClick={() => setPage(1)}>Search</Button>
+					<Button variant="success" type="submit" disabled={!searchInput.length}>Search</Button>
 				</div>
             </Form>
 
