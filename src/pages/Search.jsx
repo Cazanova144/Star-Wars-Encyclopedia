@@ -12,10 +12,14 @@ const Search = () => {
     const [searchResult, setSearchResult] = useState(null)
 	const [loading, setLoading] = useState(false)
     const [Page, setPage] = useState(1)
-    const [searchParams, setSearchParams] = useSearchParams()
 	const searchInputRef = useRef()
+    const [searchParams, setSearchParams] = useSearchParams({
+        query: '',
+        page: 1
+    })
 
     const query = searchParams.get('query')
+    const pageQuery = searchParams.get('page')
 
     const searchPeople = async (searchQuery, page ) => {
 
@@ -45,7 +49,7 @@ const Search = () => {
 
         setPage(1)
 
-		setSearchParams({ query: searchInput })
+		setSearchParams({ query: searchInput, page: 1 })
 	}
 
     useEffect(() => {
@@ -55,7 +59,9 @@ const Search = () => {
             return
         }
 
-        setSearchInput(query)
+        setSearchParams({ query: searchInput, page: Page })
+
+        setSearchInput(query, Page)
         searchPeople(query, Page)
     }, [query, Page])
 
