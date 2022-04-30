@@ -14,8 +14,9 @@ const Search = () => {
     const [Page, setPage] = useState(1)
     const [searchParams, setSearchParams] = useSearchParams()
 	const searchInputRef = useRef()
+    const queryRef = useRef()
 
-    const searchPeople = async (searchQuery, page = Page ) => {
+    const searchPeople = async (searchQuery, page ) => {
 
         if (searchQuery === null) {
             return
@@ -41,12 +42,24 @@ const Search = () => {
 			return
 		}
 
+        queryRef.current = searchInput
+
 		setSearchParams({ query: searchInput })
-        searchPeople(searchInput)
+        searchPeople(searchInput, Page)
 	}
+
+    useEffect(() => {
+        if (!queryRef.current) {
+            return
+        }
+
+        searchPeople(queryRef.current, Page)
+    }, [Page])
 
     return (
         <>
+            <br />
+
             <h1>Search</h1> 
 
             <Form onSubmit={handleSubmit}>
@@ -63,7 +76,7 @@ const Search = () => {
                 </Form.Group>
 
                 <div className="d-flex justify-content-between">
-					<Button variant="success" type="submit" disabled={!searchInput.length}>Search</Button>
+					<Button variant="success" type="submit" disabled={!searchInput.length} onClick={() => setPage(1)}>Search</Button>
 				</div>
             </Form>
 
@@ -85,15 +98,17 @@ const Search = () => {
 						))}
 					</ListGroup>
                     
-                    <Form onSubmit={handleSubmit}>
-                        <div className="d-flex justify-content-between align-items-center mt-4">
-                            <div className="mb-5">
-                                <Button disabled={Page === 1} onClick={() => setPage(prevPage => prevPage - 1)} type="submit">Previous Page</Button>
 
-                                <Button disabled={searchResult.next === null} onClick={() => setPage(prevPage => prevPage + 1)} type="submit">Next Page</Button>
-                            </div>
+                        <div className="d-flex justify-content-between align-items-center my-5">
+                            
+                                <Button disabled={Page === 1} onClick={() => setPage(prevPage => prevPage - 1)} >Previous Page</Button>
+
+                                <h5>Page {Page}</h5>
+
+                                <Button disabled={searchResult.next === null} onClick={() => setPage(prevPage => prevPage + 1)} >Next Page</Button>
+                            
                         </div>
-                    </Form>
+
 					
 				</div>
 			)}
