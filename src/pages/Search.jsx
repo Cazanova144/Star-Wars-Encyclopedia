@@ -1,8 +1,104 @@
 import React from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import ListGroup from 'react-bootstrap/ListGroup'
+import SWApi from '../services/SWApi'
+import getIdFromUrl from '../services/GetId'
 
 const Search = () => {
+    const [searchInput, setSearchInput] = useState('')
+    const [searchResult, setSearchResult] = useState(null)
+	const [loading, setLoading] = useState(false)
+    const [Page, setPage] = useState(1)
+    const [searchParams, setSearchParams] = useSearchParams()
+	const searchInputRef = useRef()
+
+    const searchPeople = async (searchQuery, page = Page ) => {
+
+        if (searchQuery === null) {
+            return
+        }
+		// set loading to true
+		setLoading(true)
+		setSearchResult(null)
+
+		// execute search
+		const data = await SWApi.searchPeople(searchQuery, page)
+
+        console.log('Data:', data)
+
+		// set loading to false
+		setSearchResult(data)
+		setLoading(false)
+	}
+
+	const handleSubmit = async e => {
+		e.preventDefault()
+
+		if (!searchInput.length) {
+			return
+		}
+
+		setSearchParams({ query: searchInput })
+        searchPeople(searchInput)
+	}
+
     return (
-        <div>Search</div>
+        <>
+            <h1>Search</h1> 
+
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-5">
+                    <Form.Label>Search Query</Form.Label>
+                        <Form.Control
+                            onChange={e => setSearchInput(e.target.value)}
+                            placeholder="Enter your search query"
+                            ref={searchInputRef}
+                            required
+                            type="text"
+                            value={searchInput}
+                        />
+                </Form.Group>
+
+                <div className="d-flex justify-content-between">
+					<Button variant="success" type="submit" disabled={!searchInput.length}>Search</Button>
+				</div>
+            </Form>
+
+            {loading && (<div className="mt-4">Loading...</div>)}
+
+			{searchResult && (
+				<div className="search-result mt-4">
+
+					<ListGroup>
+						{searchResult.results.map(hit => (
+							<ListGroup.Item
+								action
+                                as={Link}
+                                to={`/characters/${getIdFromUrl(hit.url)}`}
+								key={hit.created}
+							>
+								<h3>{hit.name}</h3>
+							</ListGroup.Item>
+						))}
+					</ListGroup>
+                    
+                    <Form onSubmit={handleSubmit}>
+                        <div className="d-flex justify-content-between align-items-center mt-4">
+                            <div className="mb-5">
+                                <Button disabled={Page === 1} onClick={() => setPage(prevPage => prevPage - 1)} type="submit">Previous Page</Button>
+
+                                <Button disabled={searchResult.next === null} onClick={() => setPage(prevPage => prevPage + 1)} type="submit">Next Page</Button>
+                            </div>
+                        </div>
+                    </Form>
+					
+				</div>
+			)}
+            
+        </>
     )
 }
 

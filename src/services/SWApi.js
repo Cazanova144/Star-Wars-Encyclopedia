@@ -22,9 +22,19 @@ const getPerson = async (id) => {
     return res.data
 }
 
+const get = async (endpoint) => {
+    const response = await axios.get(endpoint)
+    return response.data
+}
+
+const searchPeople = async (query, page) => {
+    return get(`/people/?search=${query}&page=${page}`)
+}
+
 export default {
     getMovies,
     getMovie,
     getPeople,
     getPerson,
+    searchPeople,
 }
