@@ -2,12 +2,18 @@ import { Container, Row, Button } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import CharacterCard from "../components/CharacterCard"
 import SWApi from '../services/SWApi'
+import { useSearchParams } from "react-router-dom"
 
 const Characters = () => {
     const [characters, setCharacters] = useState([])
     const [data, setData] = useState([])
     const [showCharacters, setShowCharacters] = useState(true)
     const [page, setPage] = useState(1)
+    const [searchParams, setSearchParams] = useSearchParams({
+        page:1
+    })
+
+    const Page = searchParams.get('page')
 
     const getPeople = async (page) => {
         const data = await SWApi.getPeople(page)
@@ -18,6 +24,8 @@ const Characters = () => {
 
     useEffect(() => {
         getPeople(page)
+
+        setSearchParams({ Page: page })
     }, [page])
 
     if (!characters) {

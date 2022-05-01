@@ -20,11 +20,11 @@ const App = () => {
       <Container>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/movies" element={<Movies />} />
+          <Route path="/movies/" element={<Movies />} />
           <Route path="/movies/:id" element={<Movie />} />
-          <Route path="/characters" element={<Characters />} />
+          <Route path="/characters/" element={<Characters />} />
           <Route path="/characters/:id" element={<Character/>} />
-          <Route path="/search" element={<Search/>}/>
+          <Route path="/search/" element={<Search/>}/>
           <Route path="*" element={<NotFound />} />
 
         </Routes>
