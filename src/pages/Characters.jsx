@@ -13,8 +13,6 @@ const Characters = () => {
         page:1
     })
 
-    const Page = searchParams.get('page')
-
     const getPeople = async (page) => {
         const data = await SWApi.getPeople(page)
 
@@ -48,7 +46,7 @@ const Characters = () => {
                     ): null}
                 </Row>
 
-                <div className="mb-5">
+                <div className="d-flex justify-content-between align-items-center my-5">
                     <Button disabled={page === 1} onClick={() => setPage(prevPage => prevPage - 1)}>Previous Page</Button>
 
                     <Button onClick={() => setPage(prevPage => prevPage + 1)}>Next Page</Button>

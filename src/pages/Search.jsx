@@ -73,7 +73,6 @@ const Search = () => {
 
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-5">
-                    <Form.Label>Search Query</Form.Label>
                         <Form.Control
                             onChange={e => setSearchInput(e.target.value)}
                             placeholder="Enter your search query"

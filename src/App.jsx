@@ -5,7 +5,6 @@ import Movie from './pages/Movie';
 import NotFound from './pages/NotFound'
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container'
